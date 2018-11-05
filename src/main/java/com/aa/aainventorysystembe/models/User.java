@@ -5,9 +5,9 @@ import org.springframework.data.annotation.Id;
 
 public class User {
     @Id
-    protected ObjectId _id;
+    protected String _id;
 
-    protected ObjectId role;
+    protected String role;
     protected String username;
     protected String password;
     protected String name;
@@ -18,18 +18,18 @@ public class User {
 
     //Getter and Setter
     public String get_id() {
-        return _id.toHexString();
+        return _id;
     }
 
-    public void set_id(ObjectId _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 
     public String getRole() {
-        return role.toHexString();
+        return role;
     }
 
-    public void setRole(ObjectId role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

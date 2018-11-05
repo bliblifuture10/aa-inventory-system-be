@@ -1,20 +1,18 @@
 package com.aa.aainventorysystembe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "employee")
 public class Employee extends User{
-    private ObjectId supervisor;
+    private String supervisor;
 
     //Getter and Setter
-    @JsonIgnore
     public String getSupervisor() {
-        return supervisor.toHexString();
+        return supervisor;
     }
 
-    public void setSupervisor(ObjectId supervisor) {
+    public void setSupervisor(String supervisor) {
         this.supervisor = supervisor;
     }
 }

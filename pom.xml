@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>aa-inventory-system-be</name>
-	<description>Phase 1 project for Bliblib FUTURE Program (Back End)</description>
+	<description>Phase 1 project for Blibli FUTURE Program (Back End)</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
