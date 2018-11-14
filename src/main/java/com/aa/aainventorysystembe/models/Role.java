@@ -7,17 +7,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "role")
 public class Role {
     @Id
-    private String _id;
+    private String id;
 
     private String name;
 
     //Getter and Setter
     public String  get_id() {
-        return _id;
+        return id;
     }
 
     public void set_id(String _id) {
-        this._id = _id;
+        this.id = _id;
     }
 
     public String getName() {

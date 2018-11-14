@@ -5,18 +5,18 @@ import org.springframework.data.annotation.Id;
 
 public class Product {
     @Id
-    protected String _id;
+    private String id;
 
-    protected String name;
-    protected String category;
-    protected int stock;
-    protected float price;
-    protected String image;
+    private String name;
+    private String category;
+    private int stock;
+    private float price;
+    private String image;
 
     //Getter and Setter
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -39,8 +39,8 @@ public class Product {
         return image;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String _id) {
+        this.id = _id;
     }
 
     public void setName(String name) {
