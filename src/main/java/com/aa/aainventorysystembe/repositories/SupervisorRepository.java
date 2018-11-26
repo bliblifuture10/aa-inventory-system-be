@@ -4,13 +4,14 @@ import com.aa.aainventorysystembe.models.Supervisor;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SupervisorRepository extends MongoRepository<Supervisor, String> {
-    Supervisor findBy_id(String spv_id);
+    Optional<Supervisor> findById(String spvId);
     List<Supervisor> findAllByName(String name);
 
-    boolean existsBy_id(String spv_id);
+    boolean existsById(String spvId);
     boolean existsByNameContaining(String name);
 
-    boolean deleteBy_id(String spv_id);
+    void deleteById(String spvId);
 }

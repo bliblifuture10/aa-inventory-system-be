@@ -1,18 +1,17 @@
 package com.aa.aainventorysystembe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "employee")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Document
 public class Employee extends User{
     private String supervisor;
-
-    //Getter and Setter
-    public String getSupervisor() {
-        return supervisor;
-    }
-
-    public void setSupervisor(String supervisor) {
-        this.supervisor = supervisor;
-    }
 }

@@ -1,82 +1,55 @@
 package com.aa.aainventorysystembe.controllers;
 
-import com.aa.aainventorysystembe.exception.ResourceNotFoundException;
 import com.aa.aainventorysystembe.models.Employee;
-import com.aa.aainventorysystembe.models.Role;
-import com.aa.aainventorysystembe.repositories.EmployeeRepository;
-import com.aa.aainventorysystembe.repositories.RoleRepository;
+import com.aa.aainventorysystembe.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
     @Autowired
-    EmployeeRepository employeeRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
+    private EmployeeService employeeService;
 
     //GET
-    @GetMapping("")
+    @GetMapping
     public List<Employee> getAllEmployee(){
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployee();
     }
 
-    @GetMapping("/id/{emp_id}")
-    public Employee getEmployee(@PathVariable String emp_id){
-        if(!employeeRepository.existsBy_id(emp_id)){
-            throw new ResourceNotFoundException("Employee with id " + emp_id + " not found");
-        }
-
-        return employeeRepository.findBy_id(emp_id);
+    @GetMapping("/id/{empId}")
+    public Optional<Employee> getEmployee(@PathVariable String empId){
+        return employeeService.getEmployeeById(empId);
     }
 
-    @GetMapping("/name/{emp_name}")
-    public List<Employee> getEmployeeByName(@PathVariable String emp_name){
-        if(!employeeRepository.existsByNameContaining(emp_name)){
-            throw new ResourceNotFoundException("No results for employee named " + emp_name);
-        }
-
-        return employeeRepository.findAllByNameContaining(emp_name);
+    @GetMapping("/name/{empName}")
+    public List<Employee> getEmployeeByName(@PathVariable String empName){
+        return employeeService.getAllEmployeeByName(empName);
     }
 
-    @GetMapping("/supervisor/{spv_id}")
-    public List<Employee> getEmployeeBySupervisor(@PathVariable String spv_id){
-        return employeeRepository.findAllBySupervisor(spv_id);
+    @GetMapping("/supervisor/{spvId}")
+    public List<Employee> getEmployeeBySupervisor(@PathVariable String spvId){
+        return employeeService.getAllEmployeeBySupervisor(spvId);
     }
 
     //CRUD
-    @PostMapping("")
+    @PostMapping
     public Employee addEmployee(@Valid @RequestBody Employee employee){
-        Role role = roleRepository.findByName("employee");
-
-        employee.setRole(role.get_id());
-
-        return employeeRepository.save(employee);
+        return employeeService.createEmployee(employee);
     }
 
-    @PutMapping("/id/{emp_id}")
-    public Employee updateEmployee(@PathVariable String emp_id, @Valid @RequestBody Employee employee){
-        if(!employeeRepository.existsBy_id(emp_id)){
-            throw new ResourceNotFoundException("Employee with " + emp_id + " not found");
-        }
+//    @PutMapping("/id/{emp_id}")
+//    public Employee updateEmployee(@PathVariable String emp_id, @Valid @RequestBody Employee employee){
+//
+//    }
 
-        employee.set_id(emp_id);
-
-        return employeeRepository.save(employee);
-    }
-
-    @DeleteMapping("/id/{emp_id}")
-    public boolean deleteEmployee(@PathVariable String emp_id){
-        if(!employeeRepository.existsBy_id(emp_id)){
-            throw new ResourceNotFoundException("Employee with " + emp_id + " not found");
-        }
-
-        return employeeRepository.deleteBy_id(emp_id);
+    @DeleteMapping("/id/{empId}")
+    public void deleteEmployee(@PathVariable String empId){
+        employeeService.deleteEmployee(empId);
     }
 
 }

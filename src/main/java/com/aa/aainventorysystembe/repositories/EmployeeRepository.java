@@ -4,15 +4,16 @@ import com.aa.aainventorysystembe.models.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
-    Employee findBy_id(String emp_id);
+    Optional<Employee> findById(String empId);
     List<Employee> findAllByNameContaining(String name);
-    List<Employee> findAllBySupervisor(String spv_id);
+    List<Employee> findAllBySupervisor(String spvId);
 
-    boolean existsBy_id(String emp_id);
-    boolean existsByUsernameEquals(String emp_username);
-    boolean existsByNameContaining(String emp_name);
+    boolean existsByIdEquals(String empId);
+    boolean existsByNameContaining(String empName);
+    boolean existsBySupervisorEquals(String spvId);
 
-    boolean deleteBy_id(String emp_id);
+    void deleteByIdEquals(String empId);
 }
