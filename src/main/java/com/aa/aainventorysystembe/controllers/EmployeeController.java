@@ -1,43 +1,55 @@
 package com.aa.aainventorysystembe.controllers;
 
 import com.aa.aainventorysystembe.models.Employee;
-import com.aa.aainventorysystembe.models.Role;
-import com.aa.aainventorysystembe.repositories.EmployeeRepository;
-import com.aa.aainventorysystembe.repositories.RoleRepository;
-import org.bson.types.ObjectId;
+import com.aa.aainventorysystembe.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/employee")
 public class EmployeeController {
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
-    @Autowired
-    RoleRepository roleRepository;
-
-    @GetMapping("/api/employee")
+    //GET
+    @GetMapping
     public List<Employee> getAllEmployee(){
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployee();
     }
 
-    @GetMapping("/api/employee/{emp_id}")
-    public Employee getAllEmployee(@PathVariable ObjectId emp_id){
-        return employeeRepository.findBy_id(emp_id);
+    @GetMapping("/id/{empId}")
+    public Optional<Employee> getEmployee(@PathVariable String empId){
+        return employeeService.getEmployeeById(empId);
     }
 
-    @PostMapping("/api/employee")
+    @GetMapping("/name/{empName}")
+    public List<Employee> getEmployeeByName(@PathVariable String empName){
+        return employeeService.getAllEmployeeByName(empName);
+    }
+
+    @GetMapping("/supervisor/{spvId}")
+    public List<Employee> getEmployeeBySupervisor(@PathVariable String spvId){
+        return employeeService.getAllEmployeeBySupervisor(spvId);
+    }
+
+    //CRUD
+    @PostMapping
     public Employee addEmployee(@Valid @RequestBody Employee employee){
-        Role role;
-        role = roleRepository.findByName("employee");
+        return employeeService.createEmployee(employee);
+    }
 
-        employee.set_id(ObjectId.get());
-        employee.setRole(role.get_id());
+//    @PutMapping("/id/{emp_id}")
+//    public Employee updateEmployee(@PathVariable String emp_id, @Valid @RequestBody Employee employee){
+//
+//    }
 
-        return employeeRepository.save(employee);
+    @DeleteMapping("/id/{empId}")
+    public void deleteEmployee(@PathVariable String empId){
+        employeeService.deleteEmployee(empId);
     }
 
 }

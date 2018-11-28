@@ -1,10 +1,19 @@
 package com.aa.aainventorysystembe.repositories;
 
 import com.aa.aainventorysystembe.models.Employee;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
-    Employee findBy_id(ObjectId emp_id);
-    Employee findByName(String name);
+    Optional<Employee> findById(String empId);
+    List<Employee> findAllByNameContaining(String name);
+    List<Employee> findAllBySupervisor(String spvId);
+
+    boolean existsByIdEquals(String empId);
+    boolean existsByNameContaining(String empName);
+    boolean existsBySupervisorEquals(String spvId);
+
+    void deleteByIdEquals(String empId);
 }
