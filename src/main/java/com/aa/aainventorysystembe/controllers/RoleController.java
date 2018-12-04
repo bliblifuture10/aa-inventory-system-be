@@ -1,6 +1,6 @@
 package com.aa.aainventorysystembe.controllers;
 
-import com.aa.aainventorysystembe.models.Role;
+import com.aa.aainventorysystembe.models.entity.Role;
 import com.aa.aainventorysystembe.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

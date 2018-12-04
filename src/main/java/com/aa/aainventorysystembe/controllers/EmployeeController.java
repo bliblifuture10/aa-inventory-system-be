@@ -1,6 +1,6 @@
 package com.aa.aainventorysystembe.controllers;
 
-import com.aa.aainventorysystembe.models.Employee;
+import com.aa.aainventorysystembe.models.entity.Employee;
 import com.aa.aainventorysystembe.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

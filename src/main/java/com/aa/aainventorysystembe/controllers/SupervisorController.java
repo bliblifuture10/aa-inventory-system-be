@@ -1,15 +1,9 @@
 package com.aa.aainventorysystembe.controllers;
 
-import com.aa.aainventorysystembe.exception.ResourceNotFoundException;
-import com.aa.aainventorysystembe.models.Role;
-import com.aa.aainventorysystembe.models.Supervisor;
 import com.aa.aainventorysystembe.repositories.RoleRepository;
 import com.aa.aainventorysystembe.repositories.SupervisorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/supervisor")

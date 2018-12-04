@@ -1,7 +1,6 @@
 package com.aa.aainventorysystembe.services;
 
-import com.aa.aainventorysystembe.models.Employee;
-
+import com.aa.aainventorysystembe.models.entity.Employee;
 import java.util.List;
 import java.util.Optional;
 

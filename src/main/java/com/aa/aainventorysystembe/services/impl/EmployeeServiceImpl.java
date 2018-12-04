@@ -1,21 +1,21 @@
 package com.aa.aainventorysystembe.services.impl;
 
 import com.aa.aainventorysystembe.exception.ResourceNotFoundException;
-import com.aa.aainventorysystembe.models.Employee;
+import com.aa.aainventorysystembe.models.entity.Employee;
 import com.aa.aainventorysystembe.models.ErrorCode;
-import com.aa.aainventorysystembe.models.Role;
+import com.aa.aainventorysystembe.models.entity.Role;
 import com.aa.aainventorysystembe.repositories.EmployeeRepository;
 import com.aa.aainventorysystembe.repositories.RoleRepository;
 import com.aa.aainventorysystembe.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -24,7 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Optional<Employee> getEmployeeById(String empId) {
-        if(!employeeRepository.existsByIdEquals(empId)){
+        if (!employeeRepository.existsByIdEquals(empId)) {
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }

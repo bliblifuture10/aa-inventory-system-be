@@ -1,6 +1,6 @@
 package com.aa.aainventorysystembe.repositories;
 
-import com.aa.aainventorysystembe.models.Employee;
+import com.aa.aainventorysystembe.models.entity.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
