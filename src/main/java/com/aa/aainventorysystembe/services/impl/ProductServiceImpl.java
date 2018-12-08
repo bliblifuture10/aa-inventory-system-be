@@ -49,13 +49,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(String prodId, Product product) {
-        if(!productRepository.existsById(prodId)){
+    public Product updateProduct(Product product) {
+        if(!productRepository.existsById(product.getId())){
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }
 
-        return null;
+        return productRepository.save(product);
     }
 
     @Override

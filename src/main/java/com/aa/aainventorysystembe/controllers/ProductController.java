@@ -21,13 +21,13 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
-    @GetMapping("id/{prodId}")
+    @GetMapping("/id/{prodId}")
     public Optional<Product> getProduct(@PathVariable String prodId)
     {
         return productService.getProductById(prodId);
     }
 
-    @GetMapping("name/{name}")
+    @GetMapping("/name/{name}")
     public List<Product> getAllProductByName(@PathVariable String name)
     {
         return productService.getAllProductByName(name);
@@ -39,7 +39,12 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
-    @DeleteMapping
+    @PutMapping
+    public Product updateProduct(@Valid @RequestBody Product product){
+        return productService.updateProduct(product);
+    }
+
+    @DeleteMapping("/id/{prodId}")
     public void deleteProduct(@PathVariable String prodId)
     {
         productService.deleteProduct(prodId);

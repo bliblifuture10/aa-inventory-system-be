@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee createEmployee(Employee employee) {
-        if(roleRepository.existsByName("employee")){
+        if(!roleRepository.existsByName("employee")){
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }else{
