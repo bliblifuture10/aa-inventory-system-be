@@ -1,21 +1,20 @@
 package com.aa.aainventorysystembe.services.impl;
 
 import com.aa.aainventorysystembe.exception.ResourceNotFoundException;
-import com.aa.aainventorysystembe.models.Employee;
+import com.aa.aainventorysystembe.models.entity.Employee;
 import com.aa.aainventorysystembe.models.ErrorCode;
-import com.aa.aainventorysystembe.models.Role;
+import com.aa.aainventorysystembe.models.entity.Role;
 import com.aa.aainventorysystembe.repositories.EmployeeRepository;
 import com.aa.aainventorysystembe.repositories.RoleRepository;
 import com.aa.aainventorysystembe.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -23,13 +22,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     private RoleRepository roleRepository;
 
     @Override
-    public Optional<Employee> getEmployeeById(String empId) {
-        if(!employeeRepository.existsByIdEquals(empId)){
-            throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
-                    ErrorCode.NOT_FOUND.getMessage());
-        }
-
-        return employeeRepository.findById(empId);
+    public Employee getEmployeeById(String id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode.NOT_FOUND.getCode(),
+                        ErrorCode.NOT_FOUND.getMessage()
+                ));
     }
 
     @Override
@@ -38,28 +36,28 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllEmployeeByName(String empName) {
-        if(!employeeRepository.existsByNameContaining(empName)){
+    public List<Employee> getAllEmployeeByName(String name) {
+        if(!employeeRepository.existsByNameContaining(name)){
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }else{
-            return employeeRepository.findAllByNameContaining(empName);
+            return employeeRepository.findAllByNameContaining(name);
         }
     }
 
     @Override
-    public List<Employee> getAllEmployeeBySupervisor(String spvId) {
-        if(!employeeRepository.existsBySupervisorEquals(spvId)){
+    public List<Employee> getAllEmployeeBySupervisor(String id) {
+        if(!employeeRepository.existsBySupervisorEquals(id)){
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }else{
-            return employeeRepository.findAllBySupervisor(spvId);
+            return employeeRepository.findAllBySupervisor(id);
         }
     }
 
     @Override
     public Employee createEmployee(Employee employee) {
-        if(roleRepository.existsByName("employee")){
+        if(!roleRepository.existsByName("employee")){
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }else{
@@ -72,17 +70,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee updateEmployee(Employee empId) {
-        return null;
+    public Employee updateEmployeeById(String id, Employee employeeReq) {
+        return employeeRepository.findById(id).map(employee -> {
+            employee.setSupervisor(employeeReq.getSupervisor());
+            employee.setName(employeeReq.getName());
+            employee.setEmail(employeeReq.getEmail());
+            employee.setPhone(employeeReq.getPhone());
+            employee.setAddress(employeeReq.getAddress());
+            employee.setImage(employeeReq.getImage());
+
+            return employeeRepository.save(employee);
+        }).orElseThrow(() -> new ResourceNotFoundException(
+                ErrorCode.NOT_FOUND.getCode(),
+                ErrorCode.NOT_FOUND.getMessage()
+        ));
     }
 
     @Override
-    public void deleteEmployee(String empId) {
-        if(!employeeRepository.existsByIdEquals(empId)){
+    public Boolean deleteEmployeeById(String id) {
+        if(!employeeRepository.existsByIdEquals(id)){
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
-        }else{
-            employeeRepository.deleteByIdEquals(empId);
         }
+
+        return employeeRepository.deleteByIdEquals(id);
     }
 }

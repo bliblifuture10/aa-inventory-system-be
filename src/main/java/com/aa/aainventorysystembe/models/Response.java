@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
-public class Supervisor extends User{
-
+public class Response<T> {
+    private String code;
+    private String message;
+    private T data;
 }

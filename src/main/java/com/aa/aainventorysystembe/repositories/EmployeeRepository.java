@@ -1,6 +1,6 @@
 package com.aa.aainventorysystembe.repositories;
 
-import com.aa.aainventorysystembe.models.Employee;
+import com.aa.aainventorysystembe.models.entity.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
@@ -15,5 +15,5 @@ public interface EmployeeRepository extends MongoRepository<Employee, String> {
     boolean existsByNameContaining(String empName);
     boolean existsBySupervisorEquals(String spvId);
 
-    void deleteByIdEquals(String empId);
+    Boolean deleteByIdEquals(String empId);
 }

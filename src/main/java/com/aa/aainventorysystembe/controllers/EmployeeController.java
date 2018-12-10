@@ -1,55 +1,53 @@
 package com.aa.aainventorysystembe.controllers;
 
-import com.aa.aainventorysystembe.models.Employee;
+import com.aa.aainventorysystembe.models.Response;
+import com.aa.aainventorysystembe.models.entity.Employee;
 import com.aa.aainventorysystembe.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employee")
-public class EmployeeController {
+public class EmployeeController extends GlobalController{
     @Autowired
     private EmployeeService employeeService;
 
-    //GET
     @GetMapping
-    public List<Employee> getAllEmployee(){
-        return employeeService.getAllEmployee();
+    public Response<List<Employee>> getAllEmployee(){
+        return toResponse(employeeService.getAllEmployee());
     }
 
-    @GetMapping("/id/{empId}")
-    public Optional<Employee> getEmployee(@PathVariable String empId){
-        return employeeService.getEmployeeById(empId);
+    @GetMapping("/id/{id}")
+    public Response<Employee> getEmployeeById(@PathVariable String id){
+        return toResponse(employeeService.getEmployeeById(id));
     }
 
-    @GetMapping("/name/{empName}")
-    public List<Employee> getEmployeeByName(@PathVariable String empName){
-        return employeeService.getAllEmployeeByName(empName);
+    @GetMapping("/name/{name}")
+    public Response<List<Employee>> getEmployeeByName(@PathVariable String name){
+        return toResponse(employeeService.getAllEmployeeByName(name));
     }
 
-    @GetMapping("/supervisor/{spvId}")
-    public List<Employee> getEmployeeBySupervisor(@PathVariable String spvId){
-        return employeeService.getAllEmployeeBySupervisor(spvId);
+    @GetMapping("/supervisor/{id}")
+    public Response<List<Employee>> getEmployeeBySupervisor(@PathVariable String id){
+        return toResponse(employeeService.getAllEmployeeBySupervisor(id));
     }
 
-    //CRUD
     @PostMapping
-    public Employee addEmployee(@Valid @RequestBody Employee employee){
-        return employeeService.createEmployee(employee);
+    public Response<Employee> addEmployee(@Valid @RequestBody Employee employee){
+        return toResponse(employeeService.createEmployee(employee));
     }
 
-//    @PutMapping("/id/{emp_id}")
-//    public Employee updateEmployee(@PathVariable String emp_id, @Valid @RequestBody Employee employee){
-//
-//    }
+    @PutMapping("/id/{id}")
+    public Response<Employee> updateEmployee(@PathVariable String id, @Valid @RequestBody Employee employeeReq){
+        return toResponse(employeeService.updateEmployeeById(id, employeeReq));
+    }
 
-    @DeleteMapping("/id/{empId}")
-    public void deleteEmployee(@PathVariable String empId){
-        employeeService.deleteEmployee(empId);
+    @DeleteMapping("/id/{id}")
+    public Response<Boolean> deleteEmployee(@PathVariable String id){
+        return toResponse(employeeService.deleteEmployeeById(id));
     }
 
 }

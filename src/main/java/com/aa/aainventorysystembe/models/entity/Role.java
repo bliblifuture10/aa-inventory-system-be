@@ -1,10 +1,11 @@
-package com.aa.aainventorysystembe.models;
+package com.aa.aainventorysystembe.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -12,6 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document
-public class Employee extends User{
-    private String supervisor;
+public class Role {
+    @Id
+    private String id;
+
+    private String name;
 }

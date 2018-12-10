@@ -1,6 +1,6 @@
 package com.aa.aainventorysystembe.repositories;
 
-import com.aa.aainventorysystembe.models.Role;
+import com.aa.aainventorysystembe.models.entity.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface RoleRepository extends MongoRepository<Role, String> {
