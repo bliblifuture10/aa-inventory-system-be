@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SupervisorService {
-    Optional<Supervisor> getSupervisorById(String spvId);
+    Supervisor getSupervisorById(String spvId);
     List<Supervisor> getAllSupervisor();
     List<Supervisor> getAllSupervisorByName(String name);
 
     Supervisor createSupervisor(Supervisor supervisor);
-    Supervisor updateSupervisor(Supervisor supervisor);
-    void deleteSupervisor(String spvId);
+    Supervisor updateSupervisorById(String id, Supervisor supervisorReq);
+    Boolean deleteSupervisorById(String spvId);
 }

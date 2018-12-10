@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TransactionService {
-    Optional<Transaction> getTansactionById(String transId);
+    Transaction getTansactionById(String transId);
     List<Transaction> getAllTransaction();
-    List<Transaction> getAllTransactionByEmpId(String empId);
+    List<Transaction> getAllTransactionByHolderId(String empId);
+    List<Transaction> getAllTransactionBySupervisorId(String supervisorId);
 
     Transaction createTransaction(Transaction transaction);
-    Transaction updateTransaction(String transId, Transaction transaction);
-
-    void deleteTransaction(String transId);
+    Transaction updateTransactionById(String id, Transaction transaction);
+    Boolean deleteTransactionById(String id);
 }

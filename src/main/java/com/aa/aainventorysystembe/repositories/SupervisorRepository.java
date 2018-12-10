@@ -13,5 +13,5 @@ public interface SupervisorRepository extends MongoRepository<Supervisor, String
     boolean existsById(String spvId);
     boolean existsByNameContaining(String name);
 
-    void deleteById(String spvId);
+    Boolean deleteByIdEquals(String spvId);
 }

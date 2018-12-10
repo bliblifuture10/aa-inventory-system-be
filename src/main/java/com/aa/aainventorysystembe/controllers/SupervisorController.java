@@ -1,6 +1,7 @@
 package com.aa.aainventorysystembe.controllers;
 
 import com.aa.aainventorysystembe.exception.ResourceNotFoundException;
+import com.aa.aainventorysystembe.models.Response;
 import com.aa.aainventorysystembe.models.entity.Supervisor;
 import com.aa.aainventorysystembe.repositories.RoleRepository;
 import com.aa.aainventorysystembe.repositories.SupervisorRepository;
@@ -14,40 +15,38 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/supervisor")
-public class SupervisorController {
+public class SupervisorController extends GlobalController{
     @Autowired
     SupervisorService supervisorService;
 
-    //GET
-    @GetMapping("")
-    public List<Supervisor> getAllSupervisor(){
-        return supervisorService.getAllSupervisor();
+    @GetMapping
+    public Response<List<Supervisor>> getAllSupervisor(){
+        return toResponse(supervisorService.getAllSupervisor());
     }
 
-    @GetMapping("/id/{spvId}")
-    public Optional<Supervisor> getSupervisor(@PathVariable String spvId){
-        return supervisorService.getSupervisorById(spvId);
+    @GetMapping("/id/{id}")
+    public Response<Supervisor> getSupervisorById(@PathVariable String id){
+        return toResponse(supervisorService.getSupervisorById(id));
     }
 
     @GetMapping("/name/{name}")
-    public List<Supervisor> getSupervisorByName(@PathVariable String name){
-        return supervisorService.getAllSupervisorByName(name);
+    public Response<List<Supervisor>> getSupervisorByName(@PathVariable String name){
+        return toResponse(supervisorService.getAllSupervisorByName(name));
     }
 
-    //CRUD
-    @PostMapping("")
-    public Supervisor addSupervisor(@Valid @RequestBody Supervisor supervisor){
-        return supervisorService.createSupervisor(supervisor);
+    @PostMapping
+    public Response<Supervisor> addSupervisor(@Valid @RequestBody Supervisor supervisor){
+        return toResponse(supervisorService.createSupervisor(supervisor));
     }
 
-    @PutMapping("/id/{spvId}")
-    public Supervisor updateSupervisor(@PathVariable String spvId, @Valid @RequestBody Supervisor supervisor){
-        return null;
+    @PutMapping("/id/{id}")
+    public Response<Supervisor> updateSupervisor(@PathVariable String id, @Valid @RequestBody Supervisor supervisorReq){
+        return toResponse(supervisorService.updateSupervisorById(id, supervisorReq));
     }
 
-    @DeleteMapping("/id/{spvId}")
-    public void deleteSupervisor(@PathVariable String spvId){
-        supervisorService.deleteSupervisor(spvId);
+    @DeleteMapping("/id/{id}")
+    public Response<Boolean> deleteSupervisor(@PathVariable String id){
+        return toResponse(supervisorService.deleteSupervisorById(id));
     }
 
 }

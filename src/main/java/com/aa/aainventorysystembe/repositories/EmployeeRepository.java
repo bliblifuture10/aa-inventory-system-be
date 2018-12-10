@@ -15,5 +15,5 @@ public interface EmployeeRepository extends MongoRepository<Employee, String> {
     boolean existsByNameContaining(String empName);
     boolean existsBySupervisorEquals(String spvId);
 
-    void deleteByIdEquals(String empId);
+    Boolean deleteByIdEquals(String empId);
 }

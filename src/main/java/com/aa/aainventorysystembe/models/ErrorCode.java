@@ -1,7 +1,9 @@
 package com.aa.aainventorysystembe.models;
 
 public enum ErrorCode {
-    NOT_FOUND("400", "Data not found"),
+    NOT_FOUND("404", "Data not found"),
+    BAD_REQUEST("400", "Data not valid"),
+    INTERNAL_SERVER_ERROR("500", "System fault"),
     OK("200", "Data Saved");
     private String code;
     private String message;

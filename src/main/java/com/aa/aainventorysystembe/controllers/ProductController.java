@@ -1,5 +1,6 @@
 package com.aa.aainventorysystembe.controllers;
 
+import com.aa.aainventorysystembe.models.Response;
 import com.aa.aainventorysystembe.models.entity.Product;
 import com.aa.aainventorysystembe.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,48 +8,46 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/product")
-public class ProductController {
+public class ProductController extends GlobalController{
 
     @Autowired
     private ProductService productService;
 
     @GetMapping
-    public  List<Product> getAllProduct(){
-        return productService.getAllProduct();
+    public Response<List<Product>> getAllProduct(){
+        return toResponse(productService.getAllProduct());
     }
 
-    @GetMapping("/id/{prodId}")
-    public Optional<Product> getProduct(@PathVariable String prodId)
+    @GetMapping("/id/{id}")
+    public Response<Product> getProductById(@PathVariable String id)
     {
-        return productService.getProductById(prodId);
+        return toResponse(productService.getProductById(id));
     }
 
     @GetMapping("/name/{name}")
-    public List<Product> getAllProductByName(@PathVariable String name)
+    public Response<Product> getAllProductByName(@PathVariable String name)
     {
-        return productService.getAllProductByName(name);
+        return toResponse(productService.getAllProductByName(name));
     }
 
     @PostMapping
-    public Product addProduct(@Valid @RequestBody Product product)
+    public Response<Product> addProduct(@Valid @RequestBody Product product)
     {
-        return productService.createProduct(product);
+        return toResponse(productService.createProduct(product));
     }
 
-    @PutMapping
-    public Product updateProduct(@Valid @RequestBody Product product){
-        return productService.updateProduct(product);
+    @PutMapping("/id/{id}")
+    public Response<Product> updateProductById(@PathVariable String id, @Valid @RequestBody Product product){
+        return toResponse(productService.updateProductById(id, product));
     }
 
-    @DeleteMapping("/id/{prodId}")
-    public void deleteProduct(@PathVariable String prodId)
+    @DeleteMapping("/id/{id}")
+    public Response<Boolean> deleteProductById(@PathVariable String id)
     {
-        productService.deleteProduct(prodId);
+        return toResponse(productService.deleteProductById(id));
     }
-
 
 }

@@ -4,12 +4,12 @@ import com.aa.aainventorysystembe.exception.ResourceNotFoundException;
 import com.aa.aainventorysystembe.models.ErrorCode;
 import com.aa.aainventorysystembe.models.entity.Product;
 import com.aa.aainventorysystembe.repositories.ProductRepository;
+import com.aa.aainventorysystembe.repositories.ProductRepositoryCustomAPI;
 import com.aa.aainventorysystembe.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -17,14 +17,16 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Override
-    public Optional<Product> getProductById(String prodId) {
-        if(!productRepository.existsById(prodId)){
-            throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
-                    ErrorCode.NOT_FOUND.getMessage());
-        }
+    @Autowired
+    private ProductRepositoryCustomAPI productRepositoryCustomAPI;
 
-        return productRepository.findById(prodId);
+    @Override
+    public Product getProductById(String prodId) {
+        return productRepository.findById(prodId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode.NOT_FOUND.getCode(),
+                        ErrorCode.NOT_FOUND.getMessage())
+                );
     }
 
     @Override
@@ -49,23 +51,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product product) {
-        if(!productRepository.existsById(product.getId())){
-            throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
-                    ErrorCode.NOT_FOUND.getMessage());
-        }
+    public Product updateProductById(String id, Product productReq) {
+        return productRepository.findById(id).map(product -> {
+            product.setName(productReq.getName());
+            product.setCategory(productReq.getCategory());
+            product.setStock(productReq.getStock());
+            product.setPrice(productReq.getPrice());
 
-        return productRepository.save(product);
+            return productRepository.save(product);
+        }).orElseThrow(() -> new ResourceNotFoundException(
+                ErrorCode.NOT_FOUND.getCode(),
+                ErrorCode.NOT_FOUND.getMessage()
+        ));
     }
 
     @Override
-    public void deleteProduct(String prodId) {
-        if(!productRepository.existsById(prodId))
+    public Boolean deleteProductById(String id) {
+        if(!productRepository.existsById(id))
         {
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }
 
-        productRepository.deleteByIdEquals(prodId);
+        return productRepository.deleteByIdEquals(id);
     }
 }

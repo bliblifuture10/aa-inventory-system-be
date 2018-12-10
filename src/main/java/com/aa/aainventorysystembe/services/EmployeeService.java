@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
-    Optional<Employee> getEmployeeById(String empId);
+    Employee getEmployeeById(String empId);
     List<Employee> getAllEmployee();
     List<Employee> getAllEmployeeByName(String empName);
     List<Employee> getAllEmployeeBySupervisor(String spvId);
 
     Employee createEmployee(Employee employee);
-    Employee updateEmployee(Employee employee);
-    void deleteEmployee(String empId);
+    Employee updateEmployeeById(String id, Employee employeeReq);
+    Boolean deleteEmployeeById(String empId);
 }

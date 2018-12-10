@@ -14,11 +14,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Transaction {
     @Id
-    private String Id;
+    private String id;
 
+    private String holderId;
+    private String supervisorId;
+    private String productId;
     private String description;
-    private Product product;
-    private String status;
+    private int qty;
     private double price;
-    private String holder;
+    private String status;
+
 }

@@ -22,13 +22,12 @@ public class SupervisorServiceImpl implements SupervisorService {
     RoleService roleService;
 
     @Override
-    public Optional<Supervisor> getSupervisorById(String spvId) {
-        if(!supervisorRepository.existsById(spvId)){
-            throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
-                    ErrorCode.NOT_FOUND.getMessage());
-        }
-
-        return supervisorRepository.findById(spvId);
+    public Supervisor getSupervisorById(String spvId) {
+        return supervisorRepository.findById(spvId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode.NOT_FOUND.getCode(),
+                        ErrorCode.NOT_FOUND.getMessage())
+                );
     }
 
     @Override
@@ -51,17 +50,28 @@ public class SupervisorServiceImpl implements SupervisorService {
     }
 
     @Override
-    public Supervisor updateSupervisor(Supervisor supervisor) {
-        return null;
+    public Supervisor updateSupervisorById(String id, Supervisor supervisorReq) {
+        return supervisorRepository.findById(id).map(supervisor -> {
+            supervisor.setName(supervisorReq.getName());
+            supervisor.setEmail(supervisorReq.getEmail());
+            supervisor.setPhone(supervisorReq.getPhone());
+            supervisor.setAddress(supervisorReq.getAddress());
+            supervisor.setImage(supervisorReq.getImage());
+
+            return supervisorRepository.save(supervisor);
+        }).orElseThrow(() -> new ResourceNotFoundException(
+                ErrorCode.NOT_FOUND.getCode(),
+                ErrorCode.NOT_FOUND.getMessage()
+        ));
     }
 
     @Override
-    public void deleteSupervisor(String spvId) {
+    public Boolean deleteSupervisorById(String spvId) {
         if(!supervisorRepository.existsById(spvId)){
             throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
                     ErrorCode.NOT_FOUND.getMessage());
         }
 
-        supervisorRepository.deleteById(spvId);
+        return supervisorRepository.deleteByIdEquals(spvId);
     }
 }

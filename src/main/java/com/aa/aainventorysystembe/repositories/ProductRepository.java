@@ -1,6 +1,7 @@
 package com.aa.aainventorysystembe.repositories;
 
 import com.aa.aainventorysystembe.models.entity.Product;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 import java.util.Optional;
@@ -16,5 +17,5 @@ public interface ProductRepository extends MongoRepository<Product,String> {
     boolean existsById(String prodId);
     boolean existsByNameContaining(String name);
 
-    void deleteByIdEquals(String prodId);
+    Boolean deleteByIdEquals(String prodId);
 }
