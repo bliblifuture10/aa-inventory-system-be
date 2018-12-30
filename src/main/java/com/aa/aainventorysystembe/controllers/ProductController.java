@@ -4,9 +4,12 @@ import com.aa.aainventorysystembe.models.Response;
 import com.aa.aainventorysystembe.models.entity.Product;
 import com.aa.aainventorysystembe.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,14 +37,32 @@ public class ProductController extends GlobalController{
     }
 
     @PostMapping
-    public Response<Product> addProduct(@Valid @RequestBody Product product)
+    public Response<Product> addProduct(
+            @RequestParam MultipartFile file,
+            @Valid @ModelAttribute Product product)
     {
-        return toResponse(productService.createProduct(product));
+        String imageValue = null;
+
+        try{
+            imageValue = saveUploadedFiles(file, "products");
+        }catch(IOException e){}
+
+        return toResponse(productService.createProduct(product, imageValue));
     }
 
     @PutMapping("/id/{id}")
-    public Response<Product> updateProductById(@PathVariable String id, @Valid @RequestBody Product product){
-        return toResponse(productService.updateProductById(id, product));
+    public Response<Product> updateProductById(
+            @PathVariable String id,
+            @RequestParam MultipartFile file,
+            @Valid @ModelAttribute Product product)
+    {
+        String imageValue = null;
+
+        try{
+            imageValue = saveUploadedFiles(file, "products");
+        }catch(IOException e){}
+
+        return toResponse(productService.updateProductById(id, product, imageValue));
     }
 
     @DeleteMapping("/id/{id}")

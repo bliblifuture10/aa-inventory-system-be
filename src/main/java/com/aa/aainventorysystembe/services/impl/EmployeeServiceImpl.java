@@ -5,8 +5,8 @@ import com.aa.aainventorysystembe.models.entity.Employee;
 import com.aa.aainventorysystembe.models.ErrorCode;
 import com.aa.aainventorysystembe.models.entity.Role;
 import com.aa.aainventorysystembe.repositories.EmployeeRepository;
-import com.aa.aainventorysystembe.repositories.RoleRepository;
 import com.aa.aainventorysystembe.services.EmployeeService;
+import com.aa.aainventorysystembe.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    RoleService roleService;
 
     @Override
     public Employee getEmployeeById(String id) {
@@ -56,28 +56,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee createEmployee(Employee employee) {
-        if(!roleRepository.existsByName("employee")){
-            throw new ResourceNotFoundException(ErrorCode.NOT_FOUND.getCode(),
-                    ErrorCode.NOT_FOUND.getMessage());
-        }else{
-            Role role = roleRepository.findByName("employee");
+    public Employee createEmployee(Employee employee, String imageValue) {
+        Role role = roleService.getRole("employee");
 
-            employee.setRole(role.getId());
+        employee.setRole(role.getId());
+        employee.setImage("/images/employees/" + imageValue);
 
-            return employeeRepository.save(employee);
-        }
+        return employeeRepository.save(employee);
     }
 
     @Override
-    public Employee updateEmployeeById(String id, Employee employeeReq) {
+    public Employee updateEmployeeById(String id, Employee employeeReq, String imageValue) {
         return employeeRepository.findById(id).map(employee -> {
             employee.setSupervisor(employeeReq.getSupervisor());
             employee.setName(employeeReq.getName());
             employee.setEmail(employeeReq.getEmail());
             employee.setPhone(employeeReq.getPhone());
             employee.setAddress(employeeReq.getAddress());
-            employee.setImage(employeeReq.getImage());
+            if(imageValue != null){
+                employee.setImage("/images/employees/" + imageValue);
+            }
 
             return employeeRepository.save(employee);
         }).orElseThrow(() -> new ResourceNotFoundException(

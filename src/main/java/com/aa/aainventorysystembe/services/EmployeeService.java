@@ -10,7 +10,7 @@ public interface EmployeeService {
     List<Employee> getAllEmployeeByName(String empName);
     List<Employee> getAllEmployeeBySupervisor(String spvId);
 
-    Employee createEmployee(Employee employee);
-    Employee updateEmployeeById(String id, Employee employeeReq);
+    Employee createEmployee(Employee employee, String imageValue);
+    Employee updateEmployeeById(String id, Employee employeeReq, String imageValue);
     Boolean deleteEmployeeById(String empId);
 }

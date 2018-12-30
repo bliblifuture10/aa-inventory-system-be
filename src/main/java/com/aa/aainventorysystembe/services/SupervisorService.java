@@ -10,7 +10,7 @@ public interface SupervisorService {
     List<Supervisor> getAllSupervisor();
     List<Supervisor> getAllSupervisorByName(String name);
 
-    Supervisor createSupervisor(Supervisor supervisor);
-    Supervisor updateSupervisorById(String id, Supervisor supervisorReq);
+    Supervisor createSupervisor(Supervisor supervisor, String imageValue);
+    Supervisor updateSupervisorById(String id, Supervisor supervisorReq, String imageValue);
     Boolean deleteSupervisorById(String spvId);
 }

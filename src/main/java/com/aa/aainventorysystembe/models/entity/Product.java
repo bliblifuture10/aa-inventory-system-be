@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -17,7 +18,7 @@ public class Product {
     private String id;
 
     private String name;
-    private String Category;
+    private String category;
     private int stock;
     private float price;
     private String image;

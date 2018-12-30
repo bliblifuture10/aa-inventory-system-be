@@ -6,10 +6,13 @@ import com.aa.aainventorysystembe.models.entity.Supervisor;
 import com.aa.aainventorysystembe.repositories.RoleRepository;
 import com.aa.aainventorysystembe.repositories.SupervisorRepository;
 import com.aa.aainventorysystembe.services.SupervisorService;
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,13 +38,32 @@ public class SupervisorController extends GlobalController{
     }
 
     @PostMapping
-    public Response<Supervisor> addSupervisor(@Valid @RequestBody Supervisor supervisor){
-        return toResponse(supervisorService.createSupervisor(supervisor));
+    public Response<Supervisor> addSupervisor(
+            @RequestParam MultipartFile file,
+            @Valid @ModelAttribute Supervisor supervisor
+    ){
+        String imageValue = null;
+
+        try{
+            imageValue = saveUploadedFiles(file, "supervisors");
+        }catch (IOException e){}
+
+        return toResponse(supervisorService.createSupervisor(supervisor, imageValue));
     }
 
     @PutMapping("/id/{id}")
-    public Response<Supervisor> updateSupervisor(@PathVariable String id, @Valid @RequestBody Supervisor supervisorReq){
-        return toResponse(supervisorService.updateSupervisorById(id, supervisorReq));
+    public Response<Supervisor> updateSupervisor(
+            @PathVariable String id,
+            @RequestParam MultipartFile file,
+            @Valid @ModelAttribute Supervisor supervisorReq
+    ){
+        String imageValue = null;
+
+        try{
+            imageValue = saveUploadedFiles(file, "supervisors");
+        }catch (IOException e){}
+
+        return toResponse(supervisorService.updateSupervisorById(id, supervisorReq, imageValue));
     }
 
     @DeleteMapping("/id/{id}")

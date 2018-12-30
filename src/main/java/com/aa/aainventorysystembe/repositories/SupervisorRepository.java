@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface SupervisorRepository extends MongoRepository<Supervisor, String> {
     Optional<Supervisor> findById(String spvId);
-    List<Supervisor> findAllByName(String name);
+    List<Supervisor> findAllByNameContaining(String name);
 
     boolean existsById(String spvId);
     boolean existsByNameContaining(String name);

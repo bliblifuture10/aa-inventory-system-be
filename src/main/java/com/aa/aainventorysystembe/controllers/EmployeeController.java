@@ -5,8 +5,10 @@ import com.aa.aainventorysystembe.models.entity.Employee;
 import com.aa.aainventorysystembe.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -36,13 +38,32 @@ public class EmployeeController extends GlobalController{
     }
 
     @PostMapping
-    public Response<Employee> addEmployee(@Valid @RequestBody Employee employee){
-        return toResponse(employeeService.createEmployee(employee));
+    public Response<Employee> addEmployee(
+            @RequestParam MultipartFile file,
+            @Valid @ModelAttribute Employee employee
+    ){
+        String imageValue = null;
+
+        try{
+            imageValue = saveUploadedFiles(file, "employees");
+        }catch (IOException e){}
+
+        return toResponse(employeeService.createEmployee(employee, imageValue));
     }
 
     @PutMapping("/id/{id}")
-    public Response<Employee> updateEmployee(@PathVariable String id, @Valid @RequestBody Employee employeeReq){
-        return toResponse(employeeService.updateEmployeeById(id, employeeReq));
+    public Response<Employee> updateEmployee(
+            @PathVariable String id,
+            @RequestParam MultipartFile file,
+            @Valid @ModelAttribute Employee employeeReq
+    ){
+        String imageValue = null;
+
+        try{
+            imageValue = saveUploadedFiles(file, "employees");
+        }catch (IOException e){}
+
+        return toResponse(employeeService.updateEmployeeById(id, employeeReq, imageValue));
     }
 
     @DeleteMapping("/id/{id}")

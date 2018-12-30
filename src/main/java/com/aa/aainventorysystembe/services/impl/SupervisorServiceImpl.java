@@ -37,26 +37,29 @@ public class SupervisorServiceImpl implements SupervisorService {
 
     @Override
     public List<Supervisor> getAllSupervisorByName(String name) {
-        return supervisorRepository.findAllByName(name);
+        return supervisorRepository.findAllByNameContaining(name);
     }
 
     @Override
-    public Supervisor createSupervisor(Supervisor supervisor) {
+    public Supervisor createSupervisor(Supervisor supervisor, String imageValue) {
         Role role = roleService.getRole("supervisor");
 
         supervisor.setRole(role.getId());
+        supervisor.setImage("/images/supervisors/" + imageValue);
 
         return supervisorRepository.save(supervisor);
     }
 
     @Override
-    public Supervisor updateSupervisorById(String id, Supervisor supervisorReq) {
+    public Supervisor updateSupervisorById(String id, Supervisor supervisorReq, String imageValue) {
         return supervisorRepository.findById(id).map(supervisor -> {
             supervisor.setName(supervisorReq.getName());
             supervisor.setEmail(supervisorReq.getEmail());
             supervisor.setPhone(supervisorReq.getPhone());
             supervisor.setAddress(supervisorReq.getAddress());
-            supervisor.setImage(supervisorReq.getImage());
+            if(imageValue != null){
+                supervisor.setImage("/images/supervisors/" + imageValue);
+            }
 
             return supervisorRepository.save(supervisor);
         }).orElseThrow(() -> new ResourceNotFoundException(
