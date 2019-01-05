@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Employee extends User{
     private String supervisor;
 
+    public Employee(){}
     public Employee(String supervisor) {
         this.supervisor = supervisor;
     }
